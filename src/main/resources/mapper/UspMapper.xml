@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzzy.essp.mapper.UspMapper">
+    <!-- #{属性名}  自动调用传入对象的属性值
+
+    -->
+    <resultMap id="uspmap" type="usp">
+        <id column="usp_id" property="uspId"></id>
+        <result column="sp_id" property="spId"></result>
+        <result column="user_id" property="userId"></result>
+        <result property="uspName" column="usp_name"></result>
+        <result column="usp_cost" property="uspCost"></result>
+        <result column="usp_massage" property="uspMassage"></result>
+        <result column="usp_count" property="uspCount"></result>
+        <association property="user" javaType="user">
+            <id property="userId" column="user_id"></id>
+            <result property="userName" column="user_name"></result>
+            <result property="userMoney" column="user_money"></result>
+        </association>
+        <association property="sp" javaType="sp">
+            <id property="spId" column="sp_id"></id>
+            <result property="spType" column="sp_type"></result>
+        </association>
+    </resultMap>
+    <select id="getAll" resultMap="uspmap">
+        select * from usp
+            left join user on usp.user_id=user.user_id
+            left join sp on  usp.sp_id=sp.sp_id
+    </select>
+    <select id="getSpByUserId" resultMap="uspmap">
+        select * from usp
+            left join user on usp.user_id=user.user_id
+            left join sp on  usp.sp_id=sp.sp_id
+            where usp.user_id=#{userId}
+    </select>
+    <select id="getSpByType" resultMap="uspmap">
+        select * from usp
+            left join user on usp.user_id=user.user_id
+            left join sp on  usp.sp_id=sp.sp_id
+            where sp.sp_type=#{spType}
+    </select>
+    <select id="getSpByName" resultMap="uspmap">
+        select * from usp
+            left join user on usp.user_id=user.user_id
+            left join sp on  usp.sp_id=sp.sp_id
+            where usp.usp_name=#{uspName}
+    </select>
+    <insert id="addUsp">
+        insert into usp (user_id,sp_id,usp_name,usp_cost,usp_count,usp_massage)
+            value(#{usp.userId},(select sp_id from sp where sp_type=#{sp.spType}),#{usp.uspName},#{usp.uspCost},#{usp.uspCount},#{usp.uspMassage})
+    </insert>
+    <select id="getSpById" resultMap="uspmap">
+        select * from usp
+            left join user on usp.user_id=user.user_id
+            left join sp on  usp.sp_id=sp.sp_id
+            where usp.usp_id=#{uspId}
+    </select>
+    <update id="buyUsp">
+        update usp
+            set usp_count=usp_count-#{count}
+            where usp_id=#{usp.uspId};
+    </update>
+    <delete id="delUsp">
+        delete from usp where usp_id=#{uspId}
+    </delete>
+</mapper>
