@@ -12,7 +12,19 @@ public class Usp {
     private int spId;
     private int userId;
     private String uspName;
+    private float uspCost;
+    private String uspMassage;
+    private String uspImg;
+    private int uspCount;
+    private User user;
+    private Sp sp;
+    public String getUspImg() {
+        return uspImg;
+    }
 
+    public void setUspImg(String uspImg) {
+        this.uspImg = uspImg;
+    }
     public String getUspName() {
         return uspName;
     }
@@ -20,13 +32,6 @@ public class Usp {
     public void setUspName(String uspName) {
         this.uspName = uspName;
     }
-
-    private float uspCost;
-    private String uspMassage;
-    private int uspCount;
-    private User user;
-    private Sp sp;
-
     public int getUspId() {
         return uspId;
     }
