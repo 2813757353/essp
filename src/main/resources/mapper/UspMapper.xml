@@ -13,6 +13,7 @@
         <result property="uspName" column="usp_name"></result>
         <result column="usp_cost" property="uspCost"></result>
         <result column="usp_massage" property="uspMassage"></result>
+        <result column="usp_img" property="uspImg"></result>
         <result column="usp_count" property="uspCount"></result>
         <association property="user" javaType="user">
             <id property="userId" column="user_id"></id>
@@ -48,8 +49,8 @@
             where usp.usp_name=#{uspName}
     </select>
     <insert id="addUsp">
-        insert into usp (user_id,sp_id,usp_name,usp_cost,usp_count,usp_massage)
-            value(#{usp.userId},(select sp_id from sp where sp_type=#{sp.spType}),#{usp.uspName},#{usp.uspCost},#{usp.uspCount},#{usp.uspMassage})
+        insert into usp (user_id,sp_id,usp_name,usp_cost,usp_img,usp_count,usp_massage)
+            value(#{usp.userId},(select sp_id from sp where sp_type=#{sp.spType}),#{usp.uspName},#{usp.uspCost},#{usp.uspImg},#{usp.uspCount},#{usp.uspMassage})
     </insert>
     <select id="getSpById" resultMap="uspmap">
         select * from usp
